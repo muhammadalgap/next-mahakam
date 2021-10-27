@@ -23,7 +23,7 @@ const data = {
       description: 'A popular shirt',
     },
     {
-      name: 'Flim Shirt',
+      name: 'Slim Shirt',
       category: 'Shirts',
       image: '/images/shirt3.jpg',
       price: 90,
