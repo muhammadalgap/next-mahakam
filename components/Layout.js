@@ -4,13 +4,14 @@ import NextLink from 'next/link'
 import { AppBar, Toolbar, Typography, Container, Link } from '@material-ui/core'
 import useStyles from '../utils/style'
 
-export default function Layout({ children }) {
+export default function Layout({ title, description, children }) {
   const classes = useStyles();
 
   return (
     <div>
       <Head>
-        <title>Next Mahakam</title>
+        <title>{title ? `${title} - Next Mahakam` : 'Next Mahakam'}</title>
+        {description && <meta name="description" content={description}></meta>}
       </Head>
       <AppBar position="static" className={classes.navbar}>
         <Toolbar>
