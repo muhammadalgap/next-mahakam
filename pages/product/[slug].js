@@ -2,16 +2,14 @@ import React from 'react'
 import NextLink from 'next/link'
 import Image from 'next/image'
 import { Button, Card, Grid, Link, List, ListItem, Typography } from '@material-ui/core';
-import { useRouter } from 'next/router'
-import data from '../../utils/data';
 import Layout from '../../components/Layout';
 import useStyles from '../../utils/style';
+import db from '../../utils/db';
+import Product from '../../models/Product';
 
-export default function ProductScreen() {
-  const classes = useStyles()
-  const router = useRouter();
-  const { slug } = router.query;
-  const product = data.products.find(a => a.slug === slug);
+export default function ProductScreen(props) {
+  const { product } = props;
+  const classes = useStyles();
   if (!product) {
     return (
       <div>Product Not Found</div>
@@ -81,5 +79,19 @@ export default function ProductScreen() {
         </Grid>
       </Grid>
     </Layout>
-  )
+  );
+}
+
+export async function getServerSideProps(context) {
+  const { params } = context;
+  const { slug } = params;
+
+  await db.connect();
+  const product = await Product.findOne({ slug }).lean();
+  await db.disconnect();
+  return {
+    props: {
+      product: db.convertDocToObj(product),
+    },
+  };
 }
